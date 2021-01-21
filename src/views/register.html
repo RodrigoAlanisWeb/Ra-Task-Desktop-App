@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body>
+    
+    <div class="container">
+        <form class="p-3" id="register-form">
+            <div class="form-group">
+              <label for="name">Name: </label>
+              <input type="text" name="name" class="form-control" id="input" placeholder="name" aria-describedby="helpId">
+              <div class="valid-feedback alert alert-success mt-2">Looks good!</div>
+              <div class="invalid-feedback alert alert-danger mt-2">Please Insert A Real Name.</div>
+            </div>
+            <div class="form-group">
+              <label for="username">Username: </label>
+              <input type="text" name="username" class="form-control" id="input" placeholder="username" aria-describedby="helpId">
+              <div class="valid-feedback alert alert-success mt-2">Looks good!</div>
+              <div class="invalid-feedback alert alert-danger mt-2">Please Choose A Valid Username.</div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email: </label>
+              <input type="text" name="email" class="form-control" id="input" placeholder="email" aria-describedby="helpId">
+              <div class="valid-feedback alert alert-success mt-2">Looks good!</div>
+              <div class="invalid-feedback alert alert-danger mt-2">Please Insert A Valid Email.</div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password: </label>
+              <input type="password" name="password" class="form-control" id="input" placeholder="password" aria-describedby="helpId">
+              <div class="valid-feedback alert alert-success mt-2">Looks good!</div>
+              <div class="invalid-feedback alert alert-danger mt-2">Please Insert A Valid Password.</div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                Create
+            </button>
+            <div id="alert-err" class="alert alert-danger mt-3 d-none">
+                Please Insert Valid Info!
+            </div>
+        </form>
+    </div>
+
+
+    <script src="./js/validation.js"></script>
+</body>
+</html>
