@@ -1,5 +1,6 @@
-const form = document.getElementById('register-form');
 const inputs = document.querySelectorAll("#input");
+const { remote } = require('electron');
+const main = remote.require('./main');
 
 const expresions = {
     user: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
@@ -68,16 +69,3 @@ inputs.forEach(input => {
     input.addEventListener('keyup', validate);
     input.addEventListener('blur', validate);
 });
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    if (validators.name && validators.user && validators.email && validators.password) {
-        console.log('Success');
-        document.getElementById('alert-err').classList.add('d-none')
-    } else {
-        document.getElementById('alert-err').classList.remove('d-none')
-    }
-})
-
-
