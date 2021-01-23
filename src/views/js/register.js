@@ -13,7 +13,10 @@ reg_form.addEventListener('submit',async (e) => {
             email: data.get('email'),
             password: data.get('password')
         };
-        await main.register(user);
+        await main.register(user).catch(err => {
+            document.getElementById('alert-err').classList.remove('d-none');
+            return;
+        });
         const w = remote.getCurrentWindow();
         main.reload();
         w.close();

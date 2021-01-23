@@ -4,8 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <style> 
+        #tasks{
+            overflow-y: scroll;
+            height: 100vh;
+        }
+        html{
+            overflow: hidden
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="row pl-3" id="main">
+        <form id="create_form" class="col p-5">
+            <div class="form-group">
+              <label for="name">Name: </label>
+              <input type="text" name="name_2" id="input" class="form-control" placeholder="Name">
+              <div class="valid-feedback alert alert-success mt-2">Looks good!</div>
+              <div class="invalid-feedback alert alert-danger mt-2">Please Insert A Valid Name.</div>
+            </div>
+            <div class="form-group">
+                <label for="name">Description: </label>
+                <textarea type="text" name="description" id="input" class="form-control" placeholder="Description" cols="2">
+                </textarea>
+                <div class="valid-feedback alert alert-success mt-2">Looks good!</div>
+                <div class="invalid-feedback alert alert-danger mt-2">Please Insert A Valid Dscription.</div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                Create
+            </button>
+            <div id="alert-err" class="alert alert-danger mt-3 d-none">
+                Please Insert Valid Info!
+            </div>
+        </form>
+        <div class="col" id="tasks">
+
+        </div>
+    </div>
+
+    <script src="./js/create.js"></script>
+    <script src="./js/validators.js"></script>
+    <script src="./js/tasks.js"></script>
 </body>
 </html>

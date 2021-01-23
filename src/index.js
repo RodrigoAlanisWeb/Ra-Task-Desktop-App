@@ -7,4 +7,4 @@ require('electron-reload')(__dirname);
 app.on('ready',()=>{
     const w = createWindow({width: 1000, height: 800},'index.html');
     reload()
-})
+});

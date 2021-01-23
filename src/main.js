@@ -1,4 +1,4 @@
-const { Notification, BrowserWindow, Menu } = require('electron');
+const { Notification, BrowserWindow, Menu,remote } = require('electron');
 const axios = require('axios');
 const api_url = 'https://ra-task-app-api.herokuapp.com/';
 const storage = require('electron-localstorage');
@@ -28,13 +28,17 @@ async function register(user) {
             title: 'Ra Task App | Error',
             body: 'Error At Creating The User'
         }).show()
-        return;
+        return new Error;
     });
 
     new Notification({
         title: 'Ra Task App | Desktop',
         body: 'User Created Successfully'
     }).show();
+
+    BrowserWindow.getAllWindows().forEach(window => {
+        window.reload();
+    })
 
     storage.setItem('token',request.data.token);
     return;
@@ -50,7 +54,7 @@ async function login(user) {
             title: 'Ra Task App | Error',
             body: 'Error At Login'
         }).show()
-        return;
+        return new Error;
     });
 
     new Notification({
@@ -58,12 +62,19 @@ async function login(user) {
         body: 'You Login Successfully'
     }).show();
 
+    BrowserWindow.getAllWindows().forEach(window => {
+        window.reload();
+    })
+
     storage.setItem('token',request.data.token);
     return;
 }
 
 function logout() {
     storage.removeItem('token');
+    BrowserWindow.getAllWindows().forEach(window => {
+        window.reload();
+    })
     reload();
 }
 
@@ -100,13 +111,6 @@ function reload() {
                 }
             ]
         }
-
-        template[0].submenu.push({
-            label: 'Create',
-            click: function(){
-                createWindow({width: 500,height:700},'create.html')
-            }
-        });
     } else {
         template[0].submenu.push({
             label: 'Login',
@@ -126,9 +130,48 @@ function reload() {
     Menu.setApplicationMenu(menu);
 }
 
+async function createTask(task) {
+    const request = await axios({
+        method: 'post',
+        url: api_url + 'api/tasks/',
+        data: task,
+        headers: {'x-access-token':storage.getItem('token')}
+    }).catch(err => {
+        new Notification({
+            title: 'Ra Task App | Error',
+            body: 'Error At Creating The Task',
+        }).show()
+        return;
+    });
+
+    new Notification({
+        title: 'Ra Task App | Desktop',
+        body: 'Task Created Successfully'
+    }).show();
+    return;
+}
+
+async function getAll() {
+    const request = await axios({
+        method: 'get',
+        url: api_url + 'api/tasks/',
+        headers: {'x-access-token':storage.getItem('token')}
+    }).catch(err => {
+        new Notification({
+            title: 'Ra Task App | Error',
+            body: 'Error At Getting The Tasks',
+        }).show()
+        return;
+    });
+    return request.data.tasks;
+}
+
+
 module.exports = {
     createWindow,
     register,
     reload,
-    login
+    login,
+    createTask,
+    getAll
 }
