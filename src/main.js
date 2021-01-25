@@ -36,9 +36,7 @@ async function register(user) {
         body: 'User Created Successfully'
     }).show();
 
-    BrowserWindow.getAllWindows().forEach(window => {
-        window.reload();
-    })
+    reload();
 
     storage.setItem('token',request.data.token);
     return;
@@ -62,9 +60,7 @@ async function login(user) {
         body: 'You Login Successfully'
     }).show();
 
-    BrowserWindow.getAllWindows().forEach(window => {
-        window.reload();
-    })
+    reload();
 
     storage.setItem('token',request.data.token);
     return;
@@ -72,13 +68,16 @@ async function login(user) {
 
 function logout() {
     storage.removeItem('token');
+    reload();
+    menu();
+}
+function reload() {
     BrowserWindow.getAllWindows().forEach(window => {
         window.reload();
     })
-    reload();
 }
 
-function reload() {
+function menu() {
     const template = [
         {
             label: 'Menu',
@@ -164,6 +163,26 @@ async function getAll() {
         return;
     });
     return request.data.tasks;
+};
+
+async function deleteTask(id) {
+    const request = await axios({
+        method: 'delete',
+        url: api_url + 'api/tasks/' + id ,
+        headers: {'x-access-token':storage.getItem('token')}
+    }).catch(err => {
+        new Notification({
+            title: 'Ra Task App | Error',
+            body: 'Error At Deleting The Task',
+        }).show()
+        return;
+    });
+    new Notification({
+        title: 'Ra Task App',
+        body: 'Task Deleted Successfully',
+    }).show()
+    reload();
+    return;
 }
 
 
@@ -173,5 +192,7 @@ module.exports = {
     reload,
     login,
     createTask,
-    getAll
+    getAll,
+    menu,
+    deleteTask
 }

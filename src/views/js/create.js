@@ -6,7 +6,7 @@ create_form.addEventListener('submit',async (e) => {
         document.getElementById('alert-err').classList.add('d-none');
         const data = new FormData(create_form);
         const task = {
-            name: data.get('name'),
+            name: data.get('name_2'),
             description: data.get('description')
         };
         await main.createTask(task).catch(err => {

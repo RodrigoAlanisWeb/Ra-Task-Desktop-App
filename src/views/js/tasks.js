@@ -5,6 +5,16 @@ const container = document.querySelector('#tasks');
 async function getTasks() {
     tasks = await main.getAll();
 }
+
+async function deleteTask(id) {
+    const res = confirm("Are You Sure You Want To Delete It?");
+    if (res) {
+        await main.deleteTask(id);
+    } else {
+        return;
+    }
+}
+
 async function init() {
     await getTasks()
     if (tasks.length < 1) {
@@ -15,7 +25,9 @@ async function init() {
         `
         return;
     }
-        tasks.forEach(task => {
+        tasks.forEach(async (task) => {
+            console.log(task);
+            let id = task._id;
             container.innerHTML += `
             <div class="card mt-3">
                 <div class="card-header">
@@ -25,6 +37,7 @@ async function init() {
                 <h5 class="card-title">${task.name}</h5>
                 <p class="card-text">${task.description}</p>
                 <a href="#" class="btn btn-primary">Done</a>
+                <button href="#" onclick="deleteTask('${id}')" class="btn btn-danger">Delete</button>
                  </div>
             </div>
             `
