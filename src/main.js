@@ -1,6 +1,6 @@
 const { Notification, BrowserWindow, Menu,remote } = require('electron');
 const axios = require('axios');
-const api_url = 'http://localhost:3000/';
+const api_url = 'https://ra-task-app-api.herokuapp.com/';
 const storage = require('electron-localstorage');
 
 function createWindow(size, file) {
