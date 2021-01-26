@@ -93,7 +93,7 @@ function menu() {
         },
     ];
 
-    if (storage.getItem('token')) {
+    if (storage.getItem('token') !== false && storage.getItem('token') !== null ) {
         template[1] = {
             label: 'User',
             submenu: [
