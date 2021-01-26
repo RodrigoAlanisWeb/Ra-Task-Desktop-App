@@ -1,4 +1,5 @@
 const log_form = document.getElementById('login-form');
+
 log_form.addEventListener('submit',async (e) => {
     e.preventDefault()
     if (validators.email && validators.password) {

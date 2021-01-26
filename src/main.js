@@ -1,6 +1,6 @@
 const { Notification, BrowserWindow, Menu,remote } = require('electron');
 const axios = require('axios');
-const api_url = 'https://ra-task-app-api.herokuapp.com/';
+const api_url = 'http://localhost:3000/';
 const storage = require('electron-localstorage');
 
 function createWindow(size, file) {
@@ -74,7 +74,8 @@ function logout() {
 function reload() {
     BrowserWindow.getAllWindows().forEach(window => {
         window.reload();
-    })
+    });
+    menu();
 }
 
 function menu() {
@@ -97,7 +98,10 @@ function menu() {
             label: 'User',
             submenu: [
                 {
-                    label: 'Account'
+                    label: 'Account',
+                    click: function () {
+                        createWindow({width: 500,height:195},'user.html')
+                    }
                 },
                 {
                     label: 'LogOut',
@@ -185,6 +189,41 @@ async function deleteTask(id) {
     return;
 }
 
+async function doneTask(id) {
+    const request = await axios({
+        method: 'get',
+        url: api_url + 'api/tasks/done/' + id ,
+        headers: {'x-access-token':storage.getItem('token')}
+    }).catch(err => {
+        new Notification({
+            title: 'Ra Task App | Error',
+            body: 'Error At Finish The Task',
+        }).show()
+        return;
+    });
+    new Notification({
+        title: 'Ra Task App',
+        body: 'Task Finished Successfully',
+    }).show()
+    reload();
+    return;
+}
+
+async function getProfile() {
+    const request = await axios({
+        method: "get",
+        url: api_url + "api/auth/profile",
+        headers: {'x-access-token':storage.getItem('token')}
+    }).catch(err => {
+        new Notification({
+            title: 'Ra Task App | Error',
+            body: 'Error At Getting The User',
+        }).show()
+        return;
+    });
+
+    return request.data.data;
+}
 
 module.exports = {
     createWindow,
@@ -194,5 +233,8 @@ module.exports = {
     createTask,
     getAll,
     menu,
-    deleteTask
+    deleteTask,
+    doneTask,
+    logout,
+    getProfile
 }
